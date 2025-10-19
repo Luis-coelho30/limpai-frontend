@@ -1,0 +1,28 @@
+<!--
+<nav class="navbar">
+  <a routerLink="/sobre">Sobre o Projeto</a>
+  <a routerLink="/empresas">Limpaí para Empresas</a>
+  <a routerLink="/voluntarios">Limpaí para Voluntários</a>
+</nav>
+
+<router-outlet></router-outlet>
+
+<main class="main bg-red-500 text-white ring-">
+-->
+  
+<header class="p-4 bg-white shadow flex justify-between items-center">
+  <h1 class="text-2xl font-bold text-green-600">Limpaí</h1>
+  <nav class="space-x-4">
+    <a routerLink="/sobre" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Sobre</a>
+    <a routerLink="/empresas" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Empresas</a>
+    <a routerLink="/voluntarios" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Voluntários</a>
+  </nav>
+</header>
+
+<main class="p-8 bg-gray-50 min-h-screen">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="bg-green-600 text-white p-4 text-center">
+  © 2025 Limpaí — Todos os direitos reservados
+</footer>

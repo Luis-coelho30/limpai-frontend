@@ -1,0 +1,55 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+### === FRONTEND (Angular/Tailwind) === ###
+/frontend/dist/
+/frontend/tmp/
+/frontend/out-tsc/
+/frontend/node_modules/
+/frontend/.angular/cache/
+/frontend/.angular/build-cache/
+/frontend/.vscode/*
+!/frontend/.vscode/settings.json
+!/frontend/.vscode/tasks.json
+!/frontend/.vscode/launch.json
+!/frontend/.vscode/extensions.json
+/frontend/.sass-cache/
+/frontend/coverage/
+/frontend/libpeerconnection.log
+/frontend/testem.log
+/frontend/typings/
+/frontend/__screenshots__/
+/frontend/.DS_Store
+/frontend/Thumbs.db
