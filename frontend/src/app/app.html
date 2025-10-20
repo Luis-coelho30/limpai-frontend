@@ -1,28 +1,56 @@
-<!--
-<nav class="navbar">
-  <a routerLink="/sobre">Sobre o Projeto</a>
-  <a routerLink="/empresas">Limpaí para Empresas</a>
-  <a routerLink="/voluntarios">Limpaí para Voluntários</a>
-</nav>
-
-<router-outlet></router-outlet>
-
-<main class="main bg-red-500 text-white ring-">
--->
-  
-<header class="p-4 bg-white shadow flex justify-between items-center">
-  <h1 class="text-2xl font-bold text-green-600">Limpaí</h1>
+<header class="p-4 bg-green-700 shadow-lime-800 flex justify-between items-center">
+  <h1 class="text-2xl font-bold text-white">Limpaí</h1>
+  <nav class="absolute left-1/2 transform -translate-x-1/2 space-x-4">
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/sobre"
+      routerLinkActive="font-bold"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [class.font-semibold]="!rla1.isActive"
+      #rla1="routerLinkActive"
+      >
+      Sobre</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/guia"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla2.isActive"
+      #rla2="routerLinkActive"
+      >
+      Guia</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/rankings"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla3.isActive"
+      #rla3="routerLinkActive"
+      >
+      Rankings</a>
+  </nav>
   <nav class="space-x-4">
-    <a routerLink="/sobre" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Sobre</a>
-    <a routerLink="/empresas" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Empresas</a>
-    <a routerLink="/voluntarios" routerLinkActive="text-green-600 font-semibold" class="hover:text-green-600">Voluntários</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/empresas"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla4.isActive"
+      #rla4="routerLinkActive"
+      >
+      Empresas</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/voluntarios"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla5.isActive"
+      #rla5="routerLinkActive"
+      >
+      Voluntários</a>
   </nav>
 </header>
 
-<main class="p-8 bg-gray-50 min-h-screen">
+<main class="flex flex-col min-h-screen">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="bg-green-600 text-white p-4 text-center">
+<footer class="bg-green-700 text-white p-4 text-center">
   © 2025 Limpaí — Todos os direitos reservados
 </footer>
