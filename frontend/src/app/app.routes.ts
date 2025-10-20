@@ -4,6 +4,7 @@ import { Rankings } from './pages/rankings/rankings';
 import { Guia } from './pages/guia/guia';
 import { Empresas } from './pages/empresas/empresas';
 import { Voluntarios } from './pages/voluntarios/voluntarios';
+import { Login } from './pages/login/login';
 
 export const routes: Routes = [
     { path: '', component: Sobre },
@@ -11,5 +12,6 @@ export const routes: Routes = [
     { path: 'rankings', component: Rankings},
     { path: 'sobre', component: Sobre },
     { path: 'empresas', component: Empresas },
-    { path: 'voluntarios', component: Voluntarios }
+    { path: 'voluntarios', component: Voluntarios },
+    { path: 'login', component: Login }
 ];
