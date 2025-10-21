@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css'],
+  standalone: true
 })
 export class Login {
+  // variável que controla qual botão está ativo
+  botaoAtivo: 'empresa' | 'voluntario' = 'empresa'; 
 
+  // função para selecionar botão
+  selecionarBotao(tipo: 'empresa' | 'voluntario') {
+    this.botaoAtivo = tipo;
+  }
 }

@@ -1,5 +1,45 @@
-<section class="login">
-    <h1>Login</h1>
-    <p>Entre com seus dados</p>
-</section>
-  
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <section class="login-container">
+            <h1>Login</h1>
+            <h2>Tipo de login:</h2>
+            <div class="tipo-login">
+                <button
+                    type="button" 
+                    class="tipo-login-btn"
+                    [ngClass]="{ 'ativo': botaoAtivo === 'empresa'}" 
+                    (click)="selecionarBotao('empresa')">
+                    Empresa/ONG
+                </button>
+                <button 
+                    type="button"
+                    class="tipo-login-btn"
+                    [ngClass]="{ 'ativo': botaoAtivo === 'voluntario'}" 
+                    (click)="selecionarBotao('voluntario')">
+                    Voluntário
+                </button>
+            </div>
+
+            <form>
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Digite seu email">
+
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <div class="registro">
+                Não possui cadastro? <a href="#">Cadastre-se</a>
+            </div>
+        </section>
+    </body>
+</html>

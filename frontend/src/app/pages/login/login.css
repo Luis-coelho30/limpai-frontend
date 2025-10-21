@@ -1,0 +1,114 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('img/imagem-login.jpg'); 
+  background-size: cover;     
+  background-position: center; 
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background-color: #4a6645; 
+  border-radius: 12px;
+  padding: 15px;
+  width: 320px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-left: auto; 
+  margin-right: 20%;
+}
+
+.login-container h2 {
+  text-align: left;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.tipo-login {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.tipo-login-btn {
+  width: 48%;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tipo-login-btn.ativo {
+  background-color: #3b4043; 
+  color: white; 
+}
+
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form input[type="text"],
+form input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  background-color:aliceblue;
+}
+
+input::placeholder {
+  color: black;
+  opacity: 1; 
+}
+
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  color: #000; 
+}
+
+
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #cde0c6; 
+  color: black;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #b4d4a8;
+}
+
+.registro {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.registro a {
+  color: white;
+  text-decoration: underline;
+}
