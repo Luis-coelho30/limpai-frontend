@@ -2,16 +2,14 @@ import { Routes } from '@angular/router';
 import { Sobre } from './pages/sobre/sobre';
 import { Rankings } from './pages/rankings/rankings';
 import { Guia } from './pages/guia/guia';
-import { Empresas } from './pages/empresas/empresas';
-import { Voluntarios } from './pages/voluntarios/voluntarios';
 import { Login } from './pages/login/login';
+import { Cadastro } from './pages/cadastro/cadastro';
 
 export const routes: Routes = [
-    { path: '', component: Sobre },
+    { path: '', component: Sobre }, //página sobre: landing page
     { path: 'guia', component: Guia},
     { path: 'rankings', component: Rankings},
     { path: 'sobre', component: Sobre },
-    { path: 'empresas', component: Empresas },
-    { path: 'voluntarios', component: Voluntarios },
-    { path: 'login', component: Login }
+    { path: 'login', component: Login}, //página de login
+    { path: 'cadastro', component: Cadastro} //página de cadastro
 ];

@@ -1,0 +1,99 @@
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://static.vecteezy.com/ti/fotos-gratis/p1/6037286-close-up-mao-segurando-jovem-arvore-verde-broto-e-plantando-no-solo-gratis-foto.JPG');">
+    <div class="flex flex-col items-end justify-center min-h-screen p-4">
+        <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-lg">
+        <h1 class="text-2xl font-bold text-center mb-6">Cadastro</h1>
+        <form (ngSubmit)="onSubmit()" #cadastroForm="ngForm" class="space-y-4">
+            <!-- botão: tipo de cadastro -->
+            <div class="flex justify-center space-x-4 mb-4">
+            <button
+                type="button"
+                (click)="tipo = 'voluntario'"
+                [class.bg-green-700]="tipo === 'voluntario'"
+                [class.text-white]="tipo === 'voluntario'"
+                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-200 transition"
+            >
+                Voluntário
+            </button>
+            <button
+                type="button"
+                (click)="tipo = 'empresa'"
+                [class.bg-green-700]="tipo === 'empresa'"
+                [class.text-white]="tipo === 'empresa'"
+                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-200 transition"
+            >
+                Empresa/ONG
+            </button>
+            </div>
+    
+            <!-- campos em comum -->
+            <div>
+            <label class="block mb-1">Email</label>
+            <input type="email" name="email" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+            <label class="block mb-1">Telefone</label>
+            <input type="tel" name="telefone" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+            <label class="block mb-1">Senha</label>
+            <input type="password" name="senha" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <!-- campos exclusivos para voluntário -->
+            <ng-container *ngIf="tipo === 'voluntario'">
+            <div>
+                <label class="block mb-1">Nome completo</label>
+                <input type="text" name="nome" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+                <label class="block mb-1">Data de nascimento</label>
+                <input type="date" name="dataNascimento" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+                <label class="block mb-1">CPF</label>
+                <input type="text" name="cpf" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+            </ng-container>
+    
+            <!-- campos exclusivos para empresa/ONG -->
+            <ng-container *ngIf="tipo === 'empresa'">
+            <div>
+                <label class="block mb-1">Razão Social</label>
+                <input type="text" name="razaoSocial" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+                <label class="block mb-1">Nome Fantasia</label>
+                <input type="text" name="nomeFantasia" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+    
+            <div>
+                <label class="block mb-1">CNPJ</label>
+                <input type="text" name="cnpj" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+            </div>
+            </ng-container>
+    
+            <!-- botão cadastrar -->
+            <button
+            type="submit"
+            [disabled]="!cadastroForm.valid"
+            class="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition"
+            >
+            Cadastrar
+            </button>
+
+            <!-- opção para login (link) -->
+            <p class="text-left text-sm text-green-700 mt-4">
+                Já possui cadastro?
+                <a routerLink="/pages/login" class="text-green-800 hover:underline font-medium">
+                Faça login
+                </a>
+            </p>
+        </form>
+        </div>
+    </div>
+<div>

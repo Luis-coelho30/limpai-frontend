@@ -30,28 +30,20 @@
   <nav class="space-x-4">
     <a
       class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/empresas"
+      routerLink="/login"
       routerLinkActive="font-bold"
       [class.font-semibold]="!rla4.isActive"
       #rla4="routerLinkActive"
       >
-      Empresas</a>
-    <a
-      class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/voluntarios"
-      routerLinkActive="font-bold"
-      [class.font-semibold]="!rla5.isActive"
-      #rla5="routerLinkActive"
-      >
-      Voluntários</a>
-    <a
-      class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/login"
-      routerLinkActive="font-bold"
-      [class.font-semibold]="!rla5.isActive"
-      #rla5="routerLinkActive"
-      >
       Login</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/cadastro"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla5.isActive"
+      #rla5="routerLinkActive"
+      >
+      Cadastro</a>
   </nav>
 </header>
 

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Empresas } from "../empresas/empresas";
 
 @Component({
   selector: 'app-sobre',
-  imports: [Empresas],
+  imports: [],
   templateUrl: './sobre.html',
   styleUrl: './sobre.css'
 })
