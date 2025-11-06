@@ -1,0 +1,12 @@
+<div class="flex items-start mb-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition cursor-pointer"
+     (click)="abrir.emit(campanha)">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4 text-emerald-500 flex-shrink-0 mt-1" fill="none"
+       viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.03 12.03 0 003 12c0 3.042 1.135 5.824 3.04 7.936l1.378-1.378A6.8 6.8 0 016 12c0-1.815.756-3.456 1.98-4.66L9 5.66"></path>
+  </svg>
+  <div>
+    <p class="text-lg font-semibold text-gray-800">{{ campanha.titulo }}</p>
+    <p class="text-gray-600">{{ campanha.tipo }} - ({{ campanha.ano }})</p>
+  </div>
+</div>

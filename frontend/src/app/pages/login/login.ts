@@ -5,8 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   imports: [CommonModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
-  standalone: true
+  styleUrls: ['./login.css']
 })
 export class Login {
   // variável que controla qual botão está ativo
