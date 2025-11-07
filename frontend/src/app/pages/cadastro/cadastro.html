@@ -10,7 +10,7 @@
                 (click)="tipo = 'voluntario'"
                 [class.bg-green-700]="tipo === 'voluntario'"
                 [class.text-white]="tipo === 'voluntario'"
-                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-200 transition"
+                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-500 transition"
             >
                 Voluntário
             </button>
@@ -19,7 +19,7 @@
                 (click)="tipo = 'empresa'"
                 [class.bg-green-700]="tipo === 'empresa'"
                 [class.text-white]="tipo === 'empresa'"
-                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-200 transition"
+                class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-green-500 transition"
             >
                 Empresa/ONG
             </button>
@@ -81,7 +81,7 @@
             <button
             type="submit"
             [disabled]="!cadastroForm.valid"
-            class="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition"
+            class="w-full bg-green-700 text-white font-bold py-2 rounded-lg hover:bg-green-800 transition"
             >
             Cadastrar
             </button>
@@ -89,7 +89,7 @@
             <!-- opção para login (link) -->
             <p class="text-left text-sm text-green-700 mt-4">
                 Já possui cadastro?
-                <a routerLink="/pages/login" class="text-green-800 hover:underline font-medium">
+                <a href="login" class="text-green-800 hover:underline font-medium">
                 Faça login
                 </a>
             </p>

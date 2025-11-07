@@ -26,6 +26,15 @@
       #rla3="routerLinkActive"
       >
       Rankings</a>
+    <!-- feed de campanhas; configurar para que só apareça após fazer login, e que seja a nova landing page -->
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/feed-campanhas"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla8.isActive"
+      #rla8="routerLinkActive"
+      >
+      Campanhas</a>
   </nav>
   <nav class="space-x-4">
     <a

@@ -1,0 +1,69 @@
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://roteirosecotrilhas.com.br/wp-content/uploads/2019/08/mutirao-de-limpeza-de-praias.jpg');">
+    <div class="flex justify-center min-h-screen">
+    <!-- sidebar esquerda -->
+    <aside class="w-1/4 p-4 hidden lg:block">
+      <div class="bg-white shadow-md rounded-2xl p-4 text-center">
+        <img
+          [src]="usuario.fotoUrl"
+          alt="Foto de perfil"
+          class="w-24 h-24 mx-auto rounded-full mb-3 object-cover"
+        />
+        <h2 class="text-lg font-semibold">{{ usuario.nome }}</h2>
+        <p class="text-sm text-gray-600">{{ usuario.titulo }}</p>
+        <p class="text-sm mt-4">
+            <a href="perfil-voluntario" class="text-green-700 hover:underline font-medium">
+            Ver perfil
+            </a>
+        </p>
+      </div>
+    </aside>
+  
+    <!-- feed central -->
+    <main class="w-full lg:w-2/4 p-4 space-y-4">
+      <div
+        *ngFor="let campanha of campanhas"
+        (click)="abrirJanelaCampanha(campanha)"
+        class="bg-white shadow-md rounded-2xl p-4 hover:shadow-lg transition cursor-pointer"
+      >
+        <h3 class="text-lg font-semibold text-gray-800">
+          {{ campanha.titulo }}
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">
+          {{ campanha.descricao }}
+        </p>
+      </div>
+      
+
+      <div class="flex justify-center mt-6" *ngIf="campanhasVisiveis.length < campanhas.length">
+        <button
+          (click)="carregarMais()"
+          class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition"
+        >
+          Mostrar mais campanhas
+        </button>
+      </div>
+    </main>
+  
+    <!-- sidebar direita (vazia por enquanto) -->
+    <aside class="hidden lg:block w-1/4 p-4"></aside>
+  
+    <!-- pop-up -->
+    <div *ngIf="campanhaSelecionada" class="fixed inset-0 flex items-center justify-center z-60">
+        <div class="absolute inset-0 backdrop-brightness-[0.3] transition duration-300"></div>
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
+          <button
+            (click)="fecharJanelaCampanha()"
+            class="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-4xl leading-none"
+          >
+            &times;
+          </button>
+    
+          <h3 class="text-2xl font-bold text-gray-800 mb-3">{{ campanhaSelecionada.titulo }}</h3>
+          <p class="text-gray-600 mb-2"><strong>Tipo:</strong> {{ campanhaSelecionada.tipo }}</p>
+          <p class="text-gray-600 mb-2"><strong>Ano:</strong> {{ campanhaSelecionada.ano }}</p>
+          <p class="text-gray-600 mb-2"><strong>Descrição:</strong> {{ campanhaSelecionada.descricao }}</p>
+          <p class="text-gray-700 mt-4">(colocar mais detalhes aqui depois)</p>
+        </div>
+      </div>
+  </div>
+  
