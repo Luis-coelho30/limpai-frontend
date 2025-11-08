@@ -1,4 +1,6 @@
 <!-- pendente: criar campos da própria empresa ao invés de data -->
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat"
+     style="background-image: url('https://mulhalls.com/wp-content/uploads/2018/09/091218-Fall-Color-post-2.jpg');">
 
 <div class="container mx-auto max-w-4xl p-4">
     <!-- cabeçalho -->
@@ -62,6 +64,15 @@
            (click)="abrirTodas()">
            Visualizar todas as campanhas
         </p>
+        
+        <div class="flex justify-center mt-6">
+            <button
+                (click)="navegar('/criar-campanha')"
+                class="px-6 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition"
+            >
+                Criar nova campanha
+            </button>
+        </div>
       </div>
     </div>
 

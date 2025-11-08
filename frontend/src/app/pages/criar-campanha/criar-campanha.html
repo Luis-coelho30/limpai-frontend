@@ -1,0 +1,160 @@
+<div
+  class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat"
+  style="background-image: url('https://ciclovivo.com.br/wp-content/uploads/2024/05/limpeza-praia-Ortobom-ciclovivo.jpg');"
+>
+  <div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-5xl">
+      <h1 class="text-3xl font-bold text-center mb-8 text-green-800">
+        Criar Campanha
+      </h1>
+
+      <p class="text-sm text-green-700 mb-6 text-left italic">
+        Campos marcados com * são obrigatórios
+      </p>
+
+      <form
+        (ngSubmit)="onSubmit(campanhaForm)" #campanhaForm="ngForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- nome -->
+        <div class="col-span-2">
+          <label class="block mb-1 font-medium">Nome da Campanha<span class="text-green-700 text-bold">*</span></label>
+          <input
+            type="text"
+            name="nome"
+            ngModel
+            required
+            class="w-full border rounded-lg px-3 py-2"
+            placeholder="Exemplo: Mutirão de Limpeza do Córrego da Esquina"
+          />
+        </div>
+
+        <!-- descrição -->
+        <div class="col-span-2">
+          <label class="block mb-1 font-medium">Descrição<span class="text-green-700 text-bold">*</span></label>
+          <textarea
+            name="descricao"
+            ngModel
+            required
+            rows="4"
+            class="w-full border rounded-lg px-3 py-2"
+            placeholder="Descreva o propósito e as atividades da campanha..."
+          ></textarea>
+        </div>
+
+        <!-- data -->
+        <div>
+          <label class="block mb-1 font-medium">Data<span class="text-green-700 text-bold">*</span></label>
+          <input
+            type="date"
+            name="data"
+            ngModel
+            required
+            class="w-full border rounded-lg px-3 py-2"
+          />
+        </div>
+
+        <!-- local -->
+        <div>
+          <label class="block mb-1 font-medium">Local<span class="text-green-700 text-bold">*</span></label>
+          <input
+            type="text"
+            name="local"
+            ngModel
+            required
+            class="w-full border rounded-lg px-3 py-2"
+            placeholder="Cidade, estado ou endereço"
+          />
+        </div>
+
+        <!-- horário de início -->
+        <div>
+            <label class="block mb-1 font-medium">Horário de início<span class="text-green-700 text-bold">*</span></label>
+            <input
+              type="time"
+              name="horaInicio"
+              ngModel
+              required
+              class="w-full border rounded-lg px-3 py-2"
+            />
+        </div>
+  
+        <!-- horário de término -->
+        <div>
+            <label class="block mb-1 font-medium">Horário de término<span class="text-green-700 text-bold">*</span></label>
+            <input
+              type="time"
+              name="horaFim"
+              ngModel
+              required
+              class="w-full border rounded-lg px-3 py-2"
+            />
+        </div>
+
+        <!-- número mínimo de voluntários -->
+        <div>
+            <label class="block mb-1 font-medium">Mínimo de voluntários<span class="text-green-700 text-bold">*</span></label>
+            <input
+              type="text"
+              name="minimo"
+              ngModel
+              required
+              min="1" class="w-full border rounded-lg px-3 py-2"
+              class="w-full border rounded-lg px-3 py-2"
+              placeholder="Mínimo por definição: 1"
+            />
+          </div>
+
+        <!-- número máximo de voluntários -->
+        <div>
+          <label class="block mb-1 font-medium">Máximo de voluntários<span class="text-green-700 text-bold">*</span></label>
+          <input
+            type="text"
+            name="maximo"
+            ngModel
+            required
+            max="1000" class="w-full border rounded-lg px-3 py-2"
+            class="w-full border rounded-lg px-3 py-2"
+            placeholder="Máximo por definição: 1000"
+          />
+        </div>
+
+        <!-- categoria da campanha -->
+        <div>
+            <label class="block mb-1 font-medium">Categoria da Campanha<span class="text-green-700 text-bold">*</span></label>
+            <select
+              name="tipo"
+              ngModel
+              required
+              class="w-full border rounded-lg px-3 py-2"
+            >
+              <option value="">Selecione</option>
+              <option value="parque-praca">Parque/Praça</option>
+              <option value="praia">Praia</option>
+              <option value="rio">Rio</option>
+              <option value="rua">Rua</option>
+              <option value="outra">Outra</option>
+            </select>
+        </div>
+        
+        <!-- botões -->
+        <div class="col-span-2 flex justify-between mt-8">
+          <button
+            type="button"
+            routerLink="/perfil-empresa"
+            class="px-6 py-2 border border-gray-400 rounded-lg hover:bg-gray-200 transition"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="!campanhaForm.valid"
+            class="px-6 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-green-800 transition"
+          >
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

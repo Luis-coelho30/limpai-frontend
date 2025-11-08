@@ -1,1 +1,38 @@
-<p>guia works!</p>
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat"
+     style="background-image: url('https://storage.caosplanejado.com/uploads/2023/08/praca.jpg');">
+
+  <div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-2xl">
+      <h1 class="text-3xl font-bold text-center mb-6 text-green-800">Guia de Uso</h1>
+
+      <!-- Lista de tópicos -->
+      <div class="space-y-6">
+        <div *ngFor="let topico of topicos"
+             (click)="abrirPopup(topico)"
+             class="cursor-pointer bg-white border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow">
+          <h2 class="text-xl font-semibold mb-2 text-green-800">{{ topico.titulo }}</h2>
+          <p class="text-green-700 line-clamp-2">{{ topico.descricao }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup (janela modal) -->
+  <div *ngIf="topicoSelecionado" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] flex items-center justify-center z-50">
+
+    <div class="bg-white rounded-2xl shadow-lg max-w-lg w-full p-8 relative">
+      <button (click)="fecharPopup()" 
+              class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-3xl leading-none">&times;</button>
+
+      <h2 class="text-2xl font-bold text-green-800 mb-4">{{ topicoSelecionado.titulo }}</h2>
+      <p class="text-gray-700 whitespace-pre-line">{{ topicoSelecionado.conteudo }}</p>
+
+      <div class="mt-6 text-center">
+        <button (click)="fecharPopup()"
+                class="bg-green-700 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-800 transition">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

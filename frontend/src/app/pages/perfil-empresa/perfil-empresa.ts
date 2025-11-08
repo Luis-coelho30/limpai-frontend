@@ -2,10 +2,11 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@
 import { EmpresaService } from '../../empresa.service';
 import { CommonModule } from '@angular/common';
 import { CampanhaJanela } from '../campanha-janela/campanha-janela';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-empresa',
-  imports: [CommonModule, CampanhaJanela],
+  imports: [CommonModule, CampanhaJanela, RouterModule],
   templateUrl: './perfil-empresa.html',
   styleUrl: './perfil-empresa.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +21,7 @@ export class PerfilEmpresa implements OnInit {
   mostrarJanelaFoto = false;
   previewFoto: string | null = null;
 
-  constructor(private empresaService: EmpresaService, private cdr: ChangeDetectorRef){}
+  constructor(private empresaService: EmpresaService, private cdr: ChangeDetectorRef, private router: Router){}
 
   ngOnInit(){
     this.data = this.empresaService.getDataEmpresa();
@@ -84,5 +85,9 @@ export class PerfilEmpresa implements OnInit {
     this.empresaService.removerFoto();
     this.previewFoto = this.empresaService.getDataEmpresa().fotoPlaceholder;
     this.mostrarJanelaFoto = false;
+  }
+
+  navegar(route: string){
+    this.router.navigate([route]);
   }
 }

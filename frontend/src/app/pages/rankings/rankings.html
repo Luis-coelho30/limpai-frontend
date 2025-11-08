@@ -1,1 +1,90 @@
-<p>rankings works!</p>
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat"
+     style="background-image: url('https://img.odcdn.com.br/wp-content/uploads/2025/01/Rio-amazonas-1920x1080.jpg');">
+
+<div class="min-h-screen py-10 px-6 flex flex-col items-center">
+        <div class="bg-white shadow-lg rounded-2xl p-1 h-12 w-85 max-w-md">
+            <h1 class="text-3xl font-bold text-green-800 text-center mb-8">Rankings de Empresas</h1>
+        </div>
+  
+    <!-- Fundos arrecadados -->
+    <section
+      class="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-6 mb-10 relative overflow-hidden"
+    >
+      <img
+        src="assets/fundos.jpg"
+        alt="Fundos"
+        class="absolute inset-0 w-full h-full object-cover opacity-20"
+      />
+      <div class="relative">
+        <h2 class="text-2xl font-semibold text-green-800 mb-4">
+          💰 Mais Fundos Arrecadados
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            *ngFor="let empresa of fundosArrecadados"
+            class="bg-green-100 rounded-xl p-4 shadow hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-green-900">
+              {{ empresa.nome }}
+            </h3>
+            <p class="text-green-700">R$ {{ empresa.valor | number: '1.0-0' }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Voluntários colaboradores -->
+    <section
+      class="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-6 mb-10 relative overflow-hidden"
+    >
+      <img
+        src="assets/voluntarios.jpg"
+        alt="Voluntários"
+        class="absolute inset-0 w-full h-full object-cover opacity-20"
+      />
+      <div class="relative">
+        <h2 class="text-2xl font-semibold text-green-800 mb-4">
+          🙌 Mais Voluntários Colaboradores
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            *ngFor="let empresa of maisVoluntarios"
+            class="bg-green-100 rounded-xl p-4 shadow hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-green-900">
+              {{ empresa.nome }}
+            </h3>
+            <p class="text-green-700">{{ empresa.voluntarios }} voluntários</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Campanhas realizadas -->
+    <section
+      class="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-6 relative overflow-hidden"
+    >
+      <img
+        src="assets/campanhas.jpg"
+        alt="Campanhas"
+        class="absolute inset-0 w-full h-full object-cover opacity-20"
+      />
+      <div class="relative">
+        <h2 class="text-2xl font-semibold text-green-800 mb-4">
+          📅 Mais Campanhas Realizadas
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            *ngFor="let empresa of maisCampanhas"
+            class="bg-green-100 rounded-xl p-4 shadow hover:shadow-md transition"
+          >
+            <h3 class="text-xl font-semibold text-green-900">
+              {{ empresa.nome }}
+            </h3>
+            <p class="text-green-700">{{ empresa.campanhas }} campanhas</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

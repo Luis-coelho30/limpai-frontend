@@ -7,6 +7,7 @@ import { Cadastro } from './pages/cadastro/cadastro';
 import { PerfilVoluntario } from './pages/perfil-voluntario/perfil-voluntario';
 import { PerfilEmpresa } from './pages/perfil-empresa/perfil-empresa';
 import { FeedCampanhas } from './pages/feed-campanhas/feed-campanhas';
+import { CriarCampanha } from './pages/criar-campanha/criar-campanha';
 
 export const routes: Routes = [
     { path: '', component: Sobre }, //página sobre: landing page
@@ -17,5 +18,6 @@ export const routes: Routes = [
     { path: 'cadastro', component: Cadastro }, //página de cadastro
     { path: 'perfil-voluntario', component: PerfilVoluntario }, //página de perfil de usuário
     { path: 'perfil-empresa', component: PerfilEmpresa }, //página de perfil de empresa
-    { path: 'feed-campanhas', component: FeedCampanhas } //página do feed de campanhas
+    { path: 'feed-campanhas', component: FeedCampanhas }, //página do feed de campanhas
+    { path: 'criar-campanha', component: CriarCampanha }, //página de criação de campanha
 ];
