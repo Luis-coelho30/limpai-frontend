@@ -17,18 +17,18 @@ export class ApiClientService {
     if (!obj) return params;
     const flatten = (keyPrefix: string, value: any) => {
 
-      if (value == null) return;
+      if (value != null) {
+        if (Array.isArray(value)) {
+          value.forEach(v => { params = params.append(keyPrefix, String(v)); });
+        } 
       
-      if (Array.isArray(value)) {
-        value.forEach(v => { params = params.append(keyPrefix, String(v)); });
-      } 
+        else if (typeof value === 'object') {
+          Object.keys(value).forEach(k => flatten(`${keyPrefix}.${k}`, value[k]));
+        } 
       
-      else if (typeof value === 'object') {
-        Object.keys(value).forEach(k => flatten(`${keyPrefix}.${k}`, value[k]));
-      } 
-      
-      else {
-        params = params.set(keyPrefix, String(value));
+        else {
+          params = params.set(keyPrefix, String(value));
+        }
       }
     };
 
