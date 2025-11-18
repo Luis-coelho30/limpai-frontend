@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FeedService } from '../../feed.service';
+import { FeedService } from '../../service/feed.service';
 
 @Component({
   selector: 'app-feed-campanhas',

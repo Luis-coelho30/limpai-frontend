@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { PerfilService } from '../../perfil.service';
+import { PerfilService } from '../../service/perfil.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
