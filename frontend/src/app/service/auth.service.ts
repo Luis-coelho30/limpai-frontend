@@ -16,10 +16,16 @@ export class AuthService {
 	public token$ = this.tokenSubject.asObservable();
 	public isAuthenticated$ = this.token$.pipe(map(t => !!t));
 
+	private decodedToken: any | null = null;
 	private refreshInProgress = false;
 	private refreshSubject = new BehaviorSubject<string | null>(null);
 
-	constructor(private authApi: AuthApi) { }
+	constructor(private authApi: AuthApi) {
+		const token = this.getToken();
+		if (token) {
+			this.decodedToken = this.decodeToken(token);
+		}
+	}
 
 	login(payload: LoginRequest): Observable<LoginResponse> {
 		return this.authApi.login(payload).pipe(
@@ -33,15 +39,39 @@ export class AuthService {
 	setToken(token: string | null) {
 		if (token) {
 			localStorage.setItem(this.STORAGE_KEY, token);
+			this.decodedToken = this.decodeToken(token);
 			this.tokenSubject.next(token);
 		} else {
 			localStorage.removeItem(this.STORAGE_KEY);
+			this.decodedToken = null;
 			this.tokenSubject.next(null);
 		}
 	}
 
 	getToken(): string | null {
 		return this.tokenSubject.value;
+	}
+
+	private decodeToken(token: string): any {
+		try {
+			const payload = token.split('.')[1];
+			const decodedPayload = atob(payload);
+			return JSON.parse(decodedPayload);
+		} catch (error) {
+			console.error('Erro ao decodificar o token:', error);
+			return null;
+		}
+	}
+
+	getRole(): 'VOLUNTARIO' | 'PATROCINADOR' | null {
+		if (!this.decodedToken || !this.decodedToken.role) {
+			return null;
+		}
+		const role: string = this.decodedToken.role;
+		if (role.startsWith('ROLE_')) {
+			return role.substring(5) as 'VOLUNTARIO' | 'PATROCINADOR';
+		}
+		return role as 'VOLUNTARIO' | 'PATROCINADOR';
 	}
 
 	refreshToken(): Observable<string> {
