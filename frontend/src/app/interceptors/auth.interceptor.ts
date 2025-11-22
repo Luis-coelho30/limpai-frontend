@@ -16,6 +16,10 @@ export const AuthInterceptor: HttpInterceptorFn = (
 ): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
 
+  if (req.url.includes('/auth/refresh') || req.url.includes('/auth/login') || req.url.includes('/auth/cadastrar')) {
+    return next(req);
+  }
+
   const addToken = (request: HttpRequest<any>, token: string | null) => {
     if (!token) {
       return request;
@@ -43,5 +47,3 @@ export const AuthInterceptor: HttpInterceptorFn = (
     })
   );
 };
-
-
