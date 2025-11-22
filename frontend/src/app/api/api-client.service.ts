@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 import { PagedRequest, PagedResponse } from "../model/paged.model";
 
 @Injectable({
@@ -8,7 +9,7 @@ import { PagedRequest, PagedResponse } from "../model/paged.model";
 })
 
 export class ApiClientService {
-  private apiUrl = 'https://localhost:8080'; 
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

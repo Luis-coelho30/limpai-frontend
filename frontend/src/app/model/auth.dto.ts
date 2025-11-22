@@ -4,9 +4,13 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accesstoken: string;
-  userId: number;
-  username: string;
+  token: string;
+  usuario: {
+    id: number;
+    nome: string;
+    email: string;
+    role: string;
+  };
 }
 
 export interface RegisterVoluntarioRequest {
