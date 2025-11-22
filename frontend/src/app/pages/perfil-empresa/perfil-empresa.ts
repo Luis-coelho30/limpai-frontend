@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { EmpresaService } from '../../service/empresa.service';
 import { CommonModule } from '@angular/common';
-import { CampanhaJanela } from '../campanha-janela/campanha-janela';
+import { CampanhaJanela } from '../components/campanha-janela/campanha-janela';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({

@@ -26,6 +26,14 @@
       #rla3="routerLinkActive"
       >
       Rankings</a>
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/locais"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla9.isActive"
+      #rla9="routerLinkActive"
+      >
+      Áreas de Ação</a>
     @if (isAuthenticated()) {
       <a
         class="text-white text-shadow-lg/20 hover:font-bold"

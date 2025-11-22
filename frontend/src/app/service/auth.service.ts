@@ -103,8 +103,9 @@ export class AuthService {
 	}
 
 	logout(): void {
+		const token = this.getToken();
 		this.setToken(null);
-		this.authApi.logout().subscribe({ next: () => { }, error: () => { } });
+		if (token) this.authApi.logout().subscribe();
 	}
 
 	cadastrarVoluntario(payload: RegisterVoluntarioRequest): Observable<LoginResponse> {
