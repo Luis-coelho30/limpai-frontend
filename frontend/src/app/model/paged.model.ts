@@ -6,6 +6,9 @@ export interface PagedRequest {
 }
 
 export interface PagedResponse<T> {
-  items: T[];
-  total: number;
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number; 
 }
