@@ -16,8 +16,8 @@ export class CampanhaApi {
     return this.apiClient.getPaged<CampanhaMinDTO>(this.basePath, request);
   }
 
-  listarCampanhasPorUsuario(usuarioId: number): Observable<PagedResponse<CampanhaMinDTO>> {
-    return this.apiClient.getPaged<CampanhaMinDTO>(`${this.basePath}/${usuarioId}`);
+  listarCampanhasPorUsuario(usuarioId: number, request: PagedRequest): Observable<PagedResponse<CampanhaMinDTO>> {
+    return this.apiClient.getPaged<CampanhaMinDTO>(`${this.basePath}/me/${usuarioId}`);
   }
 
   buscarPorId(campanhaId: number): Observable<CampanhaDTO> {
@@ -40,7 +40,7 @@ export class CampanhaApi {
     return this.apiClient.patch<CampanhaDTO>(`${this.basePath}/${campanhaId}/estender`, request);
   }
 
-  registrarDoacao(campanhaId: number, request: DoacaoDTO): Observable<void> {
-    return this.apiClient.patch<void>(`${this.basePath}/${campanhaId}/doar`, request);
+  registrarDoacao(campanhaId: number, request: DoacaoDTO): Observable<DoacaoDTO> {
+    return this.apiClient.patch<DoacaoDTO>(`${this.basePath}/${campanhaId}/doar`, request);
   }
 }

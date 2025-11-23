@@ -13,6 +13,7 @@ export interface CampanhaDTO {
 }
 
 export interface CampanhaMinDTO {
+    campanhaId: number;
     nome: string;
     dataFim: string;       
     metaFundos: number;

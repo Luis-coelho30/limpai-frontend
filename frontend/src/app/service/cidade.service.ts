@@ -12,4 +12,8 @@ export class CidadeService {
     buscarPorNome(cidadeNome: string): Observable<CidadeResponse[]> {
         return this.cidadeApi.buscarPorNome(cidadeNome);
     }
+
+    listarCidadesPorEstado(estadoId: number): Observable<CidadeResponse[]> {
+        return this.cidadeApi.listarCidadesPorEstado(estadoId);
+    }
 }
