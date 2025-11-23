@@ -1,0 +1,57 @@
+@if (carregando()) {
+  <div class="text-center">
+    <p class="text-lg text-gray-500">Carregando locais...</p>
+  </div>
+} @else if(erro()) {
+  <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg" role="alert">
+    <strong class="font-bold">Erro:</strong>
+    <span class="block sm:inline">{{ erro() }}</span>
+  </div>
+} @else {
+  <!-- Carrossel com Swiper.js -->
+  <swiper-container
+    class="mb-12"
+    [slidesPerView]="1"
+    [spaceBetween]="16"
+    [centeredSlides]="true"
+    [loop]="locais().length >= 3"
+    [navigation]="true"
+    [breakpoints]="{
+      '768': { slidesPerView: 2 },
+      '1024': { slidesPerView: 3 }
+    }"
+  >
+    @for (local of locais(); track local.localId; let i = $index) {
+      <swiper-slide (click)="selecionarLocal(local)" class="cursor-pointer">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 scale-90 hover:scale-95 swiper-slide-active:scale-100">
+          <img [src]="imagens[i % 3]" alt="Foto de {{ local.nome }}" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">{{ local.nome }}</h3>
+            <p class="text-gray-600 text-sm mb-4">{{ local.cidadeNome }} - {{ local.estadoSigla }}</p>
+          </div>
+        </div>
+      </swiper-slide>
+    }
+
+    <!-- Card para Criar Novo Local -->
+    @if (podeCriarLocal() && locais().length < 9) {
+      <swiper-slide (click)="navegarParaCriarLocal()" class="cursor-pointer">
+        <div class="bg-gray-50 rounded-lg shadow-md h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-teal-500 hover:bg-teal-50 transition-colors duration-300 scale-90 swiper-slide-active:scale-100">
+          <div class="text-center p-6">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mt-2 text-xl font-semibold text-gray-900">Criar Novo Local</h3>
+            <p class="mt-1 text-sm text-gray-500">Não encontrou o local que procurava? Adicione um novo.</p>
+          </div>
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
+
+  <div class="flex justify-center items-center mt-8 space-x-4">
+    <button (click)="paginaAnterior()" [disabled]="paginaAtual() === 0" class="px-4 py-2 bg-teal-600 text-white rounded-md disabled:bg-gray-300">Anterior</button>
+    <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
+    <button (click)="proximaPagina()" [disabled]="paginaAtual() >= totalPaginas() - 1" class="px-4 py-2 bg-teal-600 text-white rounded-md disabled:bg-gray-300">Próxima</button>
+  </div>
+}
