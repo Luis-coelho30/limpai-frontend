@@ -34,16 +34,15 @@
       #rla9="routerLinkActive"
       >
       Áreas de Ação</a>
-    @if (isAuthenticated()) {
-      <a
-        class="text-white text-shadow-lg/20 hover:font-bold"
-        routerLink="/feed-campanhas"
-        routerLinkActive="font-bold"
-        [class.font-semibold]="!rla8.isActive"
-        #rla8="routerLinkActive"
-        >
-        Campanhas</a>
-    }
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/feed-campanhas"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla8.isActive"
+      #rla8="routerLinkActive"
+      >
+      Campanhas</a>
+    
   </nav>
   <nav class="space-x-4">
     @if (!isAuthenticated()) {
