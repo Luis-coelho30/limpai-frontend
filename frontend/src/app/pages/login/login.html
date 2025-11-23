@@ -1,45 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <link rel="stylesheet" href="login.css">
-    </head>
-    <body>
-        <section class="login-container">
-            <h1>Login</h1>
-            <h2>Tipo de login:</h2>
-            <div class="tipo-login">
-                <button
-                    type="button" 
-                    class="tipo-login-btn"
-                    [ngClass]="{ 'ativo': botaoAtivo === 'empresa'}" 
-                    (click)="selecionarBotao('empresa')">
-                    Empresa/ONG
-                </button>
-                <button 
-                    type="button"
-                    class="tipo-login-btn"
-                    [ngClass]="{ 'ativo': botaoAtivo === 'voluntario'}" 
-                    (click)="selecionarBotao('voluntario')">
-                    Voluntário
-                </button>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <section class="login-container">
+        <h1>Login</h1>
 
-            <form>
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email" placeholder="Digite seu email">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" placeholder="Digite seu email" formControlName="email">
 
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" placeholder="Digite sua senha">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" formControlName="senha">
 
-                <button type="submit" class="login-btn">Login</button>
-            </form>
+            @if (errorMessage) {
+                <div class="error-message">{{ errorMessage }}</div>
+            }
 
-            <div class="registro">
-                Não possui cadastro? <a href="cadastro">Cadastre-se</a>
-            </div>
-        </section>
-    </body>
+            <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+        </form>
+
+        <div class="registro">Não possui cadastro? <a routerLink="/cadastro">Cadastre-se</a></div>
+    </section>
+</body>
 </html>

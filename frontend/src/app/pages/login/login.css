@@ -112,3 +112,13 @@ input[type="password"]:focus {
   color: white;
   text-decoration: underline;
 }
+
+.error-message {
+  color: #ffdddd;
+  background-color: #933636;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
