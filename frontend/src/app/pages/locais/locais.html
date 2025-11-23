@@ -1,52 +1,5 @@
 <div class="container mx-auto p-8">
   <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Conheça nossas Áreas de ação</h2>
 
-  @if (carregando()) {
-    <div class="text-center">
-      <p class="text-lg text-gray-500">Carregando locais...</p>
-    </div>
-  } @else {
-    <!-- Carrossel com Swiper.js -->
-    <swiper-container
-      class="mb-12"
-      [slidesPerView]="1"
-      [spaceBetween]="16"
-      [centeredSlides]="true"
-      [loop]="locais().length >= 3"
-      [navigation]="true"
-      [breakpoints]="{
-        '768': { slidesPerView: 2 },
-        '1024': { slidesPerView: 3 }
-      }"
-    >
-      @for (local of locais(); track local.localId; let i = $index) {
-        <swiper-slide>
-          <div class="bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 scale-90 swiper-slide-active:scale-100">
-            <img 
-              [src]="imagens[i % 3]" 
-              alt="Foto de {{ local.nome }}" 
-              class="w-full h-48 object-cover"
-            >
-            <div class="p-6">
-              <h3 class="text-xl font-semibold mb-2">{{ local.nome }}</h3>
-              <p class="text-gray-600 text-sm mb-4">{{ local.cidadeNome }} - {{ local.estadoSigla }}</p>
-            </div>
-          </div>
-        </swiper-slide>
-      }
-    </swiper-container>
-      @if (locais().length === 0) {
-        <p class="text-center text-gray-500">Nenhum local encontrado.</p>
-      }
-
-    <div class="flex justify-center items-center mt-8 space-x-4">
-      <button (click)="paginaAnterior()" [disabled]="paginaAtual() === 0" class="px-4 py-2 bg-green-600 text-white rounded-md disabled:bg-gray-300">
-        Anterior
-      </button>
-      <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
-      <button (click)="proximaPagina()" [disabled]="paginaAtual() >= totalPaginas() - 1" class="px-4 py-2 bg-green-600 text-white rounded-md disabled:bg-gray-300">
-        Próxima
-      </button>
-    </div>
-  }
+  <app-locais-carrossel></app-locais-carrossel>
 </div>

@@ -40,9 +40,13 @@
     </div>
 
     <!-- Botão de Envio -->
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-end gap-4 mt-8">
+      <button type="button" (click)="handleCancel()"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline transition">
+        Cancelar
+      </button>
       <button type="submit" [disabled]="localForm.invalid"
-              class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed">
+              class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed transition">
         Criar Local
       </button>
     </div>

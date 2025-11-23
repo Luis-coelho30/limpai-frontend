@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CidadeService } from '../../../service/cidade.service'; 
 import { CidadeResponse } from '../../../model/cidade.dto'; 
 import { LocalService } from '../../../service/local.service';
@@ -15,6 +16,8 @@ import { LocalService } from '../../../service/local.service';
 export class CriarLocalComponent implements OnInit {
   private fb = inject(FormBuilder);
   private cidadeService = inject(CidadeService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private localService = inject(LocalService);
 
   localForm!: FormGroup;
@@ -23,6 +26,8 @@ export class CriarLocalComponent implements OnInit {
   showToast = signal<boolean>(false);
   toastMessage = signal<string>('');
   toastType = signal<'success' | 'error'>('success');
+  returnUrl: string | null = null;
+
 
   ngOnInit(): void {
     this.localForm = this.fb.group({
@@ -33,6 +38,7 @@ export class CriarLocalComponent implements OnInit {
       cidadeNome: ['', Validators.required] 
     });
 
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || null;
     this.escutarBuscaDeCidade();
   }
 
@@ -65,6 +71,10 @@ export class CriarLocalComponent implements OnInit {
       this.showToast.set(false);
     }, 3000);
   }
+  
+  handleCancel(): void {
+    this.router.navigateByUrl(this.returnUrl || '/locais');
+  }
 
   onSubmit(): void {
     if (this.localForm.valid) {
@@ -77,6 +87,8 @@ export class CriarLocalComponent implements OnInit {
         next: (localCriado) => {
           this.displayToast('Área de Ação criada com sucesso!', 'success');
           this.localForm.reset();
+          // A navegação deve ocorrer após o sucesso da operação
+          this.router.navigateByUrl(this.returnUrl || '/locais');
         },
         error: (err) => this.displayToast('Erro ao criar Área de Ação. Tente novamente.', 'error'),
         complete: () => this.localForm.enable() 
