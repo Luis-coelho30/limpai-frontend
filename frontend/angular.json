@@ -33,7 +33,8 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css"            
-            ]
+            ],
+            "outputPath": "dist/landing-page"
           },
           "configurations": {
             "production": {
