@@ -10,6 +10,7 @@ export interface CampanhaDTO {
     fundosArrecadados: number;
     qtdInscritos: number;
     localDTO: LocalResponse;
+    usuarioInscrito: boolean;
 }
 
 export interface CampanhaMinDTO {

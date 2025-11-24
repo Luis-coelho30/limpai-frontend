@@ -16,8 +16,8 @@ export class CampanhaApi {
     return this.apiClient.getPaged<CampanhaMinDTO>(this.basePath, request);
   }
 
-  listarCampanhasPorUsuario(usuarioId: number, request: PagedRequest): Observable<PagedResponse<CampanhaMinDTO>> {
-    return this.apiClient.getPaged<CampanhaMinDTO>(`${this.basePath}/me/${usuarioId}`);
+  listarCampanhasPorUsuario(request: PagedRequest): Observable<PagedResponse<CampanhaMinDTO>> {
+    return this.apiClient.getPaged<CampanhaMinDTO>(`${this.basePath}/me`, request);
   }
 
   buscarPorId(campanhaId: number): Observable<CampanhaDTO> {

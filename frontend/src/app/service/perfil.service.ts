@@ -1,72 +1,35 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Observable, of, switchMap } from 'rxjs';
+import { AuthService } from './auth.service';
+import { VoluntarioApi } from '../api/voluntario.api';
+import { PatrocinadorApi } from '../api/patrocinador.api';
+import { VoluntarioDTO } from '../model/voluntario.dto';
+import { PatrocinadorDTO } from '../model/patrocinador.dto';
+import { InscricaoService } from './inscricao.service';
+import { PagedRequest, PagedResponse } from '../model/paged.model';
+import { InscricaoDTO } from '../model/inscricao.dto';
 
 @Injectable({
-    providedIn: 'root' //torna o service disponível globalmente
-  })
-  export class PerfilService {
-    private readonly FOTO_KEY = 'fotoVoluntario';
-    private fotoDefault!: string; //não define ainda porque dá erro de construção
+  providedIn: 'root'
+})
+export class PerfilService {
+  private authService = inject(AuthService);
+  private voluntarioApi = inject(VoluntarioApi);
+  private patrocinadorApi = inject(PatrocinadorApi);
+  private inscricaoService = inject(InscricaoService);
 
-    private dataVoluntario: any = {
-      nome: 'Gilberto Schnackenburg Peixeira',
-      titulo: 'Especialista em Soft Skills',
-      email: 'gilbertosp@exemplo.com',
-      telefone: '(10) 98765-4321',
-      fotoPlaceholder: '', //não define ainda porque dá erro de construção
-      resumo: 'Voluntário dedicado com experiência em gestão de projetos sociais e paixão por causas ambientais e front-end. Busco oportunidades para aplicar minhas habilidades em comunicação e organização para impactar positivamente a comunidade.',
-      certificados: [
-        { id: 1, titulo: 'Especialista em Soft Skills', instituicao: 'Instituto XYZ', ano: 2023 },
-        { id: 2, titulo: 'Design para Computação', instituicao: 'PUCSP', ano: 2022 },
-        { id: 3, titulo: 'CLT', instituicao: 'Empresa ABC', ano: 2024 },
-      ],
-      habilidades: ['Comunicação Interpessoal', 'Liderança de Equipes', 'Organização de Eventos', 'Coleta de Fundos']
-    };
-
-    constructor(){
-      this.fotoDefault = this.definirFotoDefault();
-      this.dataVoluntario.fotoPlaceholder = this.fotoDefinida();
+  buscarPerfil(): Observable<VoluntarioDTO | PatrocinadorDTO | null> {
+    const role = this.authService.getRole();
+    if (role === 'VOLUNTARIO') {
+      return this.voluntarioApi.buscarPerfil();
+    } else if (role === 'PATROCINADOR') {
+      return this.patrocinadorApi.buscarPerfil();
+    } else {
+      return of(null);
     }
-    
-    getDataVoluntario(){
-      return this.dataVoluntario;
-    }
-
-    private fotoDefinida(): string {
-      return localStorage.getItem(this.FOTO_KEY)
-        || this.fotoDefault;
-    }
-
-    atualizarFoto(novaFoto: string) {
-      this.dataVoluntario.fotoPlaceholder = novaFoto;
-      localStorage.setItem(this.FOTO_KEY, novaFoto);
-    }
-
-    getInitials(nome: string){
-      const parts = nome.trim().split(" ").filter(Boolean);
-      const first = parts[0]?.[0] || "";
-      const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
-      return (first + last).toUpperCase();
-    }
-
-    getIniciais(): string {
-      const partes = this.dataVoluntario.nome.trim().split(' ');
-      const primeira = partes[0]?.[0] || '';
-      const ultima = partes.length > 1 ? partes[partes.length - 1][0] : '';
-      return (primeira + ultima).toUpperCase();
-    }
-
-    definirFotoDefault() {
-      const iniciais = this.getIniciais();
-      const foto = `https://placehold.co/100x100/10b981/ffffff/png?text=${iniciais}`;
-      return foto;
-    }
-
-    removerFoto() {
-       this.dataVoluntario.fotoPlaceholder = this.fotoDefault;
-      localStorage.setItem(this.FOTO_KEY, this.fotoDefault)
-    }
-
-    
-    
   }
-    
+  
+  listarInscricoes(request: PagedRequest): Observable<PagedResponse<InscricaoDTO>> {
+    return this.inscricaoService.listarInscricoes(request);
+  }
+}

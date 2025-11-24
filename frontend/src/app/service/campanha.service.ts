@@ -2,12 +2,15 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { CampanhaApi } from '../api/campanha.api';
 import { CampanhaDTO, CriarCampanhaDTO, DoacaoDTO, EstenderPrazoDTO } from '../model/campanha.dto';
+import { InscricaoService } from './inscricao.service';
+import { InscricaoDTO } from '../model/inscricao.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampanhaService {
   private campanhaApi = inject(CampanhaApi);
+  private inscricaoService = inject(InscricaoService);
 
   buscarPorId(campanhaId: number): Observable<CampanhaDTO> {
     return this.campanhaApi.buscarPorId(campanhaId);
@@ -58,5 +61,13 @@ export class CampanhaService {
       return throwError(() => new Error('O valor da doação deve ser maior que zero.'));
     }
     return this.campanhaApi.registrarDoacao(campanhaId, request);
+  }
+
+  inscrever(campanhaId: number): Observable<InscricaoDTO> {
+    return this.inscricaoService.inscrever(campanhaId, null);
+  }
+
+  desinscrever(campanhaId: number): Observable<void> {
+    return this.inscricaoService.desinscrever(campanhaId);
   }
 }

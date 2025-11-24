@@ -14,7 +14,7 @@ export class FeedService {
     return this.campanhaApi.listarCampanhas(request);
   }
 
-  listarCampanhasPorUsuario(usuarioId: number, request: PagedRequest): Observable<PagedResponse<CampanhaMinDTO>> {
-    return this.campanhaApi.listarCampanhasPorUsuario(usuarioId, request);
+  listarCampanhasPorUsuario(request: PagedRequest): Observable<PagedResponse<CampanhaMinDTO>> {
+    return this.campanhaApi.listarCampanhasPorUsuario(request);
   }
 }
