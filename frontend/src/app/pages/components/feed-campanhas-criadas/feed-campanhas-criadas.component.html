@@ -1,0 +1,26 @@
+<div class="space-y-4">
+    @for (campanha of campanhas(); track campanha.campanhaId) {
+      <div
+        (click)="navegarParaCampanha(campanha.campanhaId)"
+        class="bg-white shadow-md rounded-2xl p-4 transition cursor-pointer hover:shadow-lg"
+      >
+        <h3 class="text-lg font-semibold text-gray-800">{{ campanha.nome }}</h3>
+        <p class="text-sm text-gray-500 mt-1">
+          {{ campanha.localNome }} - {{ campanha.cidadeNome }}/{{ campanha.estadoSigla }}
+        </p>
+        
+        <div class="mt-4 flex justify-between items-center text-sm text-gray-700">
+          <p><strong>Inscritos:</strong> {{ campanha.qtdInscritos }}</p>
+          <p class="font-semibold" [class.text-red-500]="(campanha.dataFim | tempoRestante) === 'Campanha encerrada'">
+            {{ campanha.dataFim | tempoRestante }}
+          </p>
+        </div>
+      </div>
+    }
+  
+    <div class="flex justify-center mt-6" *ngIf="paginaAtual + 1 < totalPaginas">
+      <button (click)="carregarMais()" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition">
+        Mostrar mais campanhas
+      </button>
+    </div>
+</div>

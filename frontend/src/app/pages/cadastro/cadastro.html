@@ -2,8 +2,9 @@
     <div class="flex flex-col items-end justify-center min-h-screen p-4">
         <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-lg">
         <h1 class="text-2xl font-bold text-center mb-6">Cadastro</h1>
+        
         <form (ngSubmit)="onSubmit()" #cadastroForm="ngForm" class="space-y-4">
-            <!-- botão: tipo de cadastro -->
+            
             <div class="flex justify-center space-x-4 mb-4">
             <button
                 type="button"
@@ -25,75 +26,78 @@
             </button>
             </div>
     
-            <!-- campos em comum -->
             <div>
             <label class="block mb-1">Email</label>
-            <input type="email" name="email" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            <input type="email" name="email" [(ngModel)]="email" required class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
             <label class="block mb-1">Telefone</label>
-            <input type="tel" name="telefone" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+            <input inputmode="numeric" type="tel" name="telefone" [(ngModel)]="telefone" pattern="[0-9]*" class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
             <label class="block mb-1">Senha</label>
-            <input type="password" name="senha" ngModel required class="w-full border rounded-lg px-3 py-2" />
+            <input type="password" name="senha" [(ngModel)]="senha" required minlength="6" class="w-full border rounded-lg px-3 py-2" />
             </div>
     
-            <!-- campos exclusivos para voluntário -->
             <ng-container *ngIf="tipo === 'voluntario'">
             <div>
                 <label class="block mb-1">Nome completo</label>
-                <input type="text" name="nome" ngModel required class="w-full border rounded-lg px-3 py-2" />
+                <input type="text" name="nome" [(ngModel)]="nome" required class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
                 <label class="block mb-1">Data de nascimento</label>
-                <input type="date" name="dataNascimento" ngModel required class="w-full border rounded-lg px-3 py-2" />
+                <input type="date" name="dataNascimento" [(ngModel)]="dataNascimento" required class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
                 <label class="block mb-1">CPF</label>
-                <input type="text" name="cpf" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+                <input type="text" name="cpf" [(ngModel)]="cpf" pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
             </div>
             </ng-container>
     
-            <!-- campos exclusivos para empresa/ONG -->
             <ng-container *ngIf="tipo === 'empresa'">
             <div>
                 <label class="block mb-1">Razão Social</label>
-                <input type="text" name="razaoSocial" ngModel required class="w-full border rounded-lg px-3 py-2" />
+                <input type="text" name="razaoSocial" [(ngModel)]="razaoSocial" required class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
                 <label class="block mb-1">Nome Fantasia</label>
-                <input type="text" name="nomeFantasia" ngModel required class="w-full border rounded-lg px-3 py-2" />
+                <input type="text" name="nomeFantasia" [(ngModel)]="nomeFantasia" required class="w-full border rounded-lg px-3 py-2" />
             </div>
     
             <div>
                 <label class="block mb-1">CNPJ</label>
-                <input type="text" name="cnpj" ngModel pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
+                <input type="text" name="cnpj" [(ngModel)]="cnpj" pattern="[0-9]*" required class="w-full border rounded-lg px-3 py-2" />
             </div>
             </ng-container>
     
-            <!-- botão cadastrar -->
+            <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-sm text-center">
+                <strong class="font-bold">Atenção: </strong>
+                <span class="block sm:inline">{{ error }}</span>
+            </div>
+
+            <div *ngIf="loading" class="text-center text-green-700 font-semibold animate-pulse text-sm">
+                Processando seu cadastro...
+            </div>
             <button
-            type="submit"
-            [disabled]="!cadastroForm.valid"
-            class="w-full bg-green-700 text-white font-bold py-2 rounded-lg hover:bg-green-800 transition"
+                type="submit"
+                [disabled]="!cadastroForm.valid || loading"
+                class="w-full bg-green-700 text-white font-bold py-2 rounded-lg hover:bg-green-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-            Cadastrar
+                Cadastrar
             </button>
 
-            <!-- opção para login (link) -->
             <p class="text-left text-sm text-green-700 mt-4">
                 Já possui cadastro?
-                <a href="login" class="text-green-800 hover:underline font-medium">
+                <a routerLink="/login" class="text-green-800 hover:underline font-medium">
                 Faça login
                 </a>
             </p>
         </form>
         </div>
     </div>
-<div>
+</div>

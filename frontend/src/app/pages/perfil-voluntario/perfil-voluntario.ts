@@ -1,58 +1,63 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { PerfilService } from '../../perfil.service';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, inject, signal } from '@angular/core';
+import { PerfilService } from '../../service/perfil.service';
 import { CommonModule } from '@angular/common';
+import { VoluntarioDTO } from '../../model/voluntario.dto';
+import { FeedInscricaoComponent } from '../components/feed-inscricao/feed-inscricao.component';
 
 @Component({
   selector: 'app-perfil-voluntario',
-  imports: [CommonModule],
+  imports: [CommonModule, FeedInscricaoComponent],
   templateUrl: './perfil-voluntario.html',
   styleUrl: './perfil-voluntario.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
-
 export class PerfilVoluntario implements OnInit {
-  data: any;
+  private perfilService = inject(PerfilService);
+  private cdr = inject(ChangeDetectorRef);
+  
+  perfil = signal<VoluntarioDTO | null>(null);
   mostrarJanelaFoto = false;
   previewFoto: string | null = null;
 
-  constructor(private perfilService: PerfilService, private cdr: ChangeDetectorRef){}
-
-  ngOnInit(){
-    this.data = this.perfilService.getDataVoluntario();
+  ngOnInit() {
+    this.perfilService.buscarPerfil().subscribe(data => {
+      this.perfil.set(data as VoluntarioDTO);
+    });
   }
 
-  abrirJanelaFoto(){
+  get fotoExibida(): string {
+    return this.gerarFotoPlaceholder();
+  }
+
+  gerarFotoPlaceholder(): string {
+    const nome = this.perfil()?.nome ?? '';
+    const iniciais = nome.trim().split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+    return `https://placehold.co/100x100/10b981/ffffff/png?text=${iniciais}`;
+  }
+
+  abrirJanelaFoto() {
     this.mostrarJanelaFoto = true;
   }
 
-  fecharJanelaFoto(){
+  fecharJanelaFoto() {
     this.mostrarJanelaFoto = false;
     this.previewFoto = null;
   }
 
-  uploadFoto(event: Event){
+  uploadFoto(event: Event) {
     const input = event.target as HTMLInputElement;
-    if(input.files && input.files[0]){
+    if (input.files && input.files[0]) {
       const file = input.files[0];
       const reader = new FileReader();
-      reader.onload = e =>{
+      reader.onload = e => {
         this.previewFoto = e.target?.result as string;
-
-        this.cdr.detectChanges(); //corrige bug
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
     }
   }
 
-  salvarNovaFoto(novaUrl: string){
-    this.perfilService.atualizarFoto(novaUrl);
-    this.fecharJanelaFoto();
-  }
-
-  removerFoto(){
-    this.perfilService.removerFoto();
-    this.previewFoto = this.perfilService.getDataVoluntario().fotoPlaceholder;
-    this.mostrarJanelaFoto = false;
-  }
-
+  salvarNovaFoto(novaUrl: string) { /* TODO: Implementar upload */ }
+  removerFoto() { /* TODO: Implementar remoção */ }
 }

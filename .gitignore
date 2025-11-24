@@ -53,3 +53,4 @@ build/
 /frontend/__screenshots__/
 /frontend/.DS_Store
 /frontend/Thumbs.db
+/frontend/src/environments/**

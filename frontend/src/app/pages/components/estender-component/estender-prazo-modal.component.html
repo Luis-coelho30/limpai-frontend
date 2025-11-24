@@ -1,0 +1,35 @@
+@if (show) {
+  <div class="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md animate-fade-in-scale">
+      <h2 class="text-2xl font-bold mb-2 text-gray-800">Estender Prazo da Campanha</h2>
+      <p class="mb-6 text-gray-600">Selecione a nova data e hora de encerramento para a campanha.</p>
+
+      <form #prazoForm="ngForm" (ngSubmit)="onSubmit(prazoForm)">
+        <div class="mb-4">
+          <mat-form-field class="w-full">
+            <mat-label>Nova Data de Fim</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="novaDataFim" name="novaDataFim" required>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            
+          </mat-form-field>
+        </div>
+
+        <div class="mb-4">
+          <label for="novaHoraFim" class="block text-sm font-medium text-gray-700">Hora de Encerramento</label>
+          <input type="time" id="novaHoraFim" name="novaHoraFim" [(ngModel)]="novaHoraFim" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+            <mat-datepicker #picker></mat-datepicker>
+        </div>
+
+        @if (errorMessage) {
+          <div class="text-red-600 text-sm mb-4 bg-red-50 p-3 rounded-lg">
+            {{ errorMessage }}
+          </div>
+        }
+        <div class="mt-6 flex justify-end gap-4">
+          <button type="button" (click)="close.emit()" class="px-6 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+          <button type="submit" [disabled]="!prazoForm.valid" class="px-6 py-2 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 disabled:bg-gray-400 transition">Confirmar Nova Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

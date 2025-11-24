@@ -1,0 +1,95 @@
+<div class="container mx-auto p-4">
+  <!-- Modo de Visualização -->
+  @if (mode === 'view' && campanha) {
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img src="assets/voluntarios-limpando-cidade.jpg" alt="Banner da campanha {{ campanha.nome }}" class="w-full h-64 object-cover">
+      <div class="p-6">
+        <h1 class="text-3xl font-bold mb-4">{{ campanha.nome }}</h1>
+        <p class="text-gray-600 mb-4">{{ campanha.descricao }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 border-t pt-4">
+          <p><strong>Início:</strong> {{ campanha.dataInicio | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p><strong>Tempo Restante:</strong> {{ campanha.dataFim | tempoRestante }}</p>
+          <p><strong>Meta de Fundos:</strong> {{ campanha.metaFundos | currency:'BRL' }}</p>
+          <p><strong>Arrecadado:</strong> {{ campanha.fundosArrecadados | currency:'BRL' }}</p>
+          <p><strong>Inscritos:</strong> {{ campanha.qtdInscritos }}</p>
+          <p><strong>Local:</strong> {{ campanha.localDTO.nome }} - {{ campanha.localDTO.cidadeNome }}/{{ campanha.localDTO.estadoSigla }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end gap-4 border-t pt-4">
+      @if (!isEncerrada) {
+        <button type="button" (click)="donate.emit(campanha.campanhaId)" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Apoiar com Doação</button>
+        <button type="button" (click)="signUp.emit()" class="px-4 py-2 text-white rounded-md" [ngClass]="{'bg-indigo-600 hover:bg-indigo-700': !isSubscribed, 'bg-red-600 hover:bg-red-700': isSubscribed}">
+          {{ isSubscribed ? 'Desinscrever-se' : 'Inscrever-se' }}
+        </button>
+      }
+      
+      @if (canManage && !isEncerrada) {
+        <button type="button" (click)="extendDeadline.emit(campanha.campanhaId)" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">Estender Prazo</button>
+        <button type="button" (click)="endCampaign.emit(campanha.campanhaId)" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Encerrar Campanha</button>
+        <button type="button" (click)="edit.emit()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Editar Campanha</button>
+      }
+    </div>
+  }
+
+  @if (mode === 'create' || mode === 'edit') {
+    <form #campanhaForm="ngForm" (ngSubmit)="onSubmit(campanhaForm)">
+      <div class="space-y-4">
+        <div>
+          <label for="nome" class="block text-sm font-medium text-gray-700">Nome da Campanha</label>
+          <input type="text" id="nome" name="nome" [(ngModel)]="formData.nome" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+        </div>
+
+        <div>
+          <label for="descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
+          <textarea id="descricao" name="descricao" [(ngModel)]="formData.descricao" required rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <mat-form-field class="w-full">
+              <mat-label>Data de Início</mat-label>
+              <input matInput [matDatepicker]="pickerInicio" [(ngModel)]="dataInicioDate" name="dataInicioDate" required>
+              <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicio></mat-datepicker>
+            </mat-form-field>
+            <label for="dataInicioTime" class="block text-sm font-medium text-gray-700 mt-2">Horário de início</label>
+            <input type="time" id="dataInicioTime" name="dataInicioTime" [(ngModel)]="dataInicioTime" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          </div>
+          <div>
+            <mat-form-field class="w-full">
+              <mat-label>Data de Fim</mat-label>
+              <input matInput [matDatepicker]="pickerFim" [(ngModel)]="dataFimDate" name="dataFimDate" required>
+              <mat-datepicker-toggle matIconSuffix [for]="pickerFim"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFim></mat-datepicker>
+            </mat-form-field>
+            <label for="dataFimTime" class="block text-sm font-medium text-gray-700 mt-2">Horário de término</label>
+            <input type="time" id="dataFimTime" name="dataFimTime" [(ngModel)]="dataFimTime" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          </div>
+        </div>
+
+        <div>
+          <label for="metaFundos" class="block text-sm font-medium text-gray-700">Meta de Fundos (R$)</label>
+          <input type="number" id="metaFundos" name="metaFundos" [(ngModel)]="formData.metaFundos" required min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+        </div>
+
+        <div>
+          <label for="local" class="block text-sm font-medium text-gray-700">Local Selecionado</label>
+          <input 
+            type="text" 
+            id="local" 
+            name="local" 
+            [value]="initialLocalNome" 
+            [disabled]="true"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 cursor-not-allowed">
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end gap-4">
+        <button type="button" (click)="cancel.emit()" class="px-4 py-2 bg-gray-300 rounded-md">Voltar</button>
+        <button type="submit" [disabled]="!campanhaForm.valid" class="px-4 py-2 bg-teal-600 text-white rounded-md disabled:bg-gray-400">Salvar Campanha</button>
+      </div>
+    </form>
+  }
+</div>

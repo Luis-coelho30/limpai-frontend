@@ -1,0 +1,51 @@
+<div class="container mx-auto p-4">
+  @if (campanha) {
+    <app-campanha-component
+      [campanha]="campanha"
+      [mode]="'view'"
+      [isSubscribed]="isSubscribed()"
+      [canManage]="canManage"
+      (donate)="handleDonate($event)"
+      (signUp)="handleSignUp()"
+      (edit)="handleEdit()"
+      (endCampaign)="handleEndCampaign($event)"
+      (extendDeadline)="handleExtendDeadline($event)">
+    </app-campanha-component>
+  } @else {
+    <p>Carregando detalhes da campanha...</p>
+  }
+</div>
+
+<!-- Modais -->
+<app-doacao-modal
+  [show]="showDoacaoModal"
+  [errorMessage]="modalErrorMessage"
+  (close)="closeModal()"
+  (confirm)="confirmDoacao($event)"></app-doacao-modal>
+
+<app-estender-prazo-modal
+  [show]="showEstenderPrazoModal"
+  [errorMessage]="modalErrorMessage"
+  (close)="closeModal()"
+  (confirm)="confirmEstenderPrazo($event)"></app-estender-prazo-modal>
+
+<app-confirm-modal
+  [show]="showConfirmEncerramentoModal"
+  title="Encerrar Campanha"
+  message="Tem certeza que deseja encerrar esta campanha? Esta ação não pode ser desfeita."
+  confirmButtonText="Sim, encerrar"
+  (close)="closeModal()"
+  (confirm)="confirmEncerramento()"></app-confirm-modal>
+
+<!-- Toast Notification -->
+@if (showToast()) {
+  <div
+    class="fixed top-5 right-5 p-4 rounded-lg shadow-lg text-white transition-transform transform-gpu animate-fade-in-down"
+    [ngClass]="{
+      'bg-green-500': toastType() === 'success',
+      'bg-red-500': toastType() === 'error'
+    }"
+  >
+    <p>{{ toastMessage() }}</p>
+  </div>
+}

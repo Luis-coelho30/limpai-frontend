@@ -1,0 +1,67 @@
+<div class="container mx-auto p-8 max-w-2xl">
+  <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Criar Nova Área de Ação</h2>
+
+  <form [formGroup]="localForm" (ngSubmit)="onSubmit()" class="bg-white shadow-md rounded-lg p-8">
+    <!-- Nome do Local -->
+    <div class="mb-4">
+      <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome do Local</label>
+      <input id="nome" type="text" formControlName="nome" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <!-- Endereço -->
+    <div class="mb-4">
+      <label for="endereco" class="block text-gray-700 text-sm font-bold mb-2">Endereço</label>
+      <input id="endereco" type="text" formControlName="endereco" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <!-- CEP -->
+    <div class="mb-4">
+      <label for="cep" class="block text-gray-700 text-sm font-bold mb-2">CEP</label>
+      <input id="cep" type="text" formControlName="cep" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    </div>
+
+    <!-- Busca de Cidade (Autocomplete) -->
+    <div class="mb-6 relative">
+      <label for="cidade" class="block text-gray-700 text-sm font-bold mb-2">Cidade</label>
+      <input id="cidade" type="text" placeholder="Digite para buscar a cidade"
+             formControlName="cidadeNome"
+             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+      <!-- Lista de Sugestões -->
+      @if (cidadesSugeridas().length > 0) {
+        <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto">
+          @for (cidade of cidadesSugeridas(); track cidade.cidadeId) {
+            <li (click)="selecionarCidade(cidade)" class="p-2 hover:bg-gray-100 cursor-pointer">
+              {{ cidade.nome }} - {{ cidade.estadoSigla }}
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Botão de Envio -->
+    <div class="flex items-center justify-end gap-4 mt-8">
+      <button type="button" (click)="handleCancel()"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline transition">
+        Cancelar
+      </button>
+      <button type="submit" [disabled]="localForm.invalid"
+              class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed transition">
+        Criar Local
+      </button>
+    </div>
+  </form>
+
+  <!-- Toast Notification -->
+  @if (showToast()) {
+    <div
+      class="fixed top-5 right-5 p-4 rounded-lg shadow-lg text-white transition-transform transform-gpu animate-fade-in-down"
+      [ngClass]="{
+        'bg-green-500': toastType() === 'success',
+        'bg-red-500': toastType() === 'error'
+      }"
+    >
+      <p>{{ toastMessage() }}</p>
+    </div>
+  }
+</div>

@@ -26,8 +26,14 @@
       #rla3="routerLinkActive"
       >
       Rankings</a>
-
-    <!-- feed de campanhas; configurar para que só apareça após fazer login, e que seja a nova landing page -->
+    <a
+      class="text-white text-shadow-lg/20 hover:font-bold"
+      routerLink="/locais"
+      routerLinkActive="font-bold"
+      [class.font-semibold]="!rla9.isActive"
+      #rla9="routerLinkActive"
+      >
+      Áreas de Ação</a>
     <a
       class="text-white text-shadow-lg/20 hover:font-bold"
       routerLink="/feed-campanhas"
@@ -36,41 +42,40 @@
       #rla8="routerLinkActive"
       >
       Campanhas</a>
+    
   </nav>
   <nav class="space-x-4">
-    <a
-      class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/login"
-      routerLinkActive="font-bold"
-      [class.font-semibold]="!rla4.isActive"
-      #rla4="routerLinkActive"
-      >
-      Login</a>
-    <a
-      class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/cadastro"
-      routerLinkActive="font-bold"
-      [class.font-semibold]="!rla5.isActive"
-      #rla5="routerLinkActive"
-      >
-      Cadastro</a>
-      <!-- alterar: condição para cadastro e login sumirem. alterações: lógica no app.ts -->
+    @if (!isAuthenticated()) {
+      <a
+        class="text-white text-shadow-lg/20 hover:font-bold"
+        routerLink="/login"
+        routerLinkActive="font-bold"
+        [class.font-semibold]="!rla4.isActive"
+        #rla4="routerLinkActive"
+        >
+        Login</a>
+      <a
+        class="text-white text-shadow-lg/20 hover:font-bold"
+        routerLink="/cadastro"
+        routerLinkActive="font-bold"
+        [class.font-semibold]="!rla5.isActive"
+        #rla5="routerLinkActive"
+        >
+        Cadastro</a>
+    }
+    @if (isAuthenticated()) {
       <a
       class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/perfil-voluntario"
+      [routerLink]="profileLink()"
       routerLinkActive="font-bold"
-      [class.font-semibold]="!rla6.isActive"
-      #rla6="routerLinkActive"
       >
-      Pág. Voluntário</a> <!-- teste; precisa configurar para que substitua cadastro e login após o usuário faça login -->
+      Meu Perfil</a>
       <a
-      class="text-white text-shadow-lg/20 hover:font-bold"
-      routerLink="/perfil-empresa"
-      routerLinkActive="font-bold"
-      [class.font-semibold]="!rla7.isActive"
-      #rla7="routerLinkActive"
+      (click)="logout()"
+      class="text-white text-shadow-lg/20 hover:font-bold cursor-pointer"
       >
-      Pág. Empresa</a> <!-- teste; precisa configurar para que substitua cadastro e login após o usuário faça login -->
+      Sair</a> 
+    }
   </nav>
 </header>
 

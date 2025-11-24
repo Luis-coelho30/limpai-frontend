@@ -1,0 +1,35 @@
+<div class="container mx-auto p-8">
+  <h1 class="text-3xl font-bold text-center mb-8 text-teal-800">
+    Criar Nova Campanha
+  </h1>
+
+  @if (!localSelecionadoId) {
+    <div class="bg-white shadow-lg rounded-2xl p-8">
+      <h2 class="text-2xl font-semibold mb-4">Passo 1: Selecione o Local</h2>
+      <p class="mb-6">Escolha um dos locais abaixo para criar a sua campanha de limpeza.</p>
+      <app-locais-carrossel (localSelecionado)="selecionarLocal($event)"></app-locais-carrossel>
+    </div>
+  }
+
+  @if (localSelecionadoId) {
+    <div class="bg-white shadow-lg rounded-2xl p-8 mt-8">
+      <h2 class="text-2xl font-semibold mb-4">
+        Passo 2: Detalhes da Campanha para <span class="text-teal-600">{{ localSelecionadoNome }}</span>
+      </h2>
+      <app-campanha-component
+        [mode]="'create'"
+        [initialLocalId]="localSelecionadoId"
+        [initialLocalNome]="localSelecionadoNome"
+        (save)="handleSave($event)"
+        (cancel)="handleCancel()">
+      </app-campanha-component>
+
+      @if (errorMessage) {
+        <div class="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg" role="alert">
+          <strong class="font-bold">Erro: </strong>
+          <span class="block sm:inline">{{ errorMessage }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

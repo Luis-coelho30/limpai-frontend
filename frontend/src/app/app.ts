@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterOutlet, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLinkWithHref, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { routes } from './app.routes';
+import { AuthService } from '../app/service/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,21 @@ import { routes } from './app.routes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
+  private authService = inject(AuthService);
+  private router = inject(Router);
   protected readonly title = signal('landing-page');
   
-  //quero que apareça um outerlink para o perfil do usuário no lugar dos outerlinks login e cadastro quando ele fizer login
+  isAuthenticated = toSignal(this.authService.isAuthenticated$, { initialValue: false });
+
+  profileLink = computed(() => {
+    if (this.isAuthenticated()) {
+      const role = this.authService.getRole();
+      if (role === 'VOLUNTARIO') return '/perfil-voluntario';
+      if (role === 'PATROCINADOR') return '/perfil-empresa';
+    }
+    return '/'; 
+  });
+  
   view = signal<'cadastro' | 'perfil'>('cadastro');
   formTipo = signal<'voluntario' | 'empresa'>('voluntario');
   data = signal<any | null>(null);
@@ -33,15 +47,9 @@ export class App {
   }
 
   logout(): void {
-    this.view.set('cadastro');
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
-/*
-  simularLogin(): void {
-    const perfil = PerfilService.getData();
-    this.data.set(perfil);
-    this.view.set('perfil');
-  } */
- //o que falta: chamar página de perfil (após entrar na conta)
 
   getButtonClasses(currentTipo: 'voluntario' | 'empresa'): string {
     const isSelected = this.formTipo() === currentTipo;

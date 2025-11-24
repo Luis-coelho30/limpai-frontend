@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "config:prod": "node ./scripts/set-env.js",
+    "build": "npm run config:prod && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -22,15 +23,19 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.3.4",
+    "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
+    "@angular/material": "^20.2.14",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@tailwindcss/vite": "^4.1.14",
     "bootstrap": "^5.3.8",
     "rxjs": "~7.8.0",
+    "swiper": "^12.0.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
