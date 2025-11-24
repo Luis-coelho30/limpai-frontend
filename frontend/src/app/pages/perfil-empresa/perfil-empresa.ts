@@ -1,93 +1,68 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
-import { EmpresaService } from '../../service/empresa.service';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CampanhaJanela } from '../components/campanha-janela/campanha-janela';
 import { Router, RouterModule } from '@angular/router';
+import { PerfilService } from '../../service/perfil.service';
+import { PatrocinadorDTO } from '../../model/patrocinador.dto';
+import { FeedCampanhasCriadasComponent } from '../components/feed-campanhas-criadas/feed-campanhas-criadas.component';
+import { FeedInscricaoComponent } from '../components/feed-inscricao/feed-inscricao.component';
 
 @Component({
   selector: 'app-perfil-empresa',
-  imports: [CommonModule, CampanhaJanela, RouterModule],
+  imports: [CommonModule, RouterModule, FeedCampanhasCriadasComponent, FeedInscricaoComponent],
   templateUrl: './perfil-empresa.html',
   styleUrl: './perfil-empresa.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true
 })
-
 export class PerfilEmpresa implements OnInit {
-  data: any;
-  campanhaSelecionada: any = null;
-  mostrarTodas = false;
-  estavaMostrandoTodas = false;
+  private perfilService = inject(PerfilService);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  
+  perfil = signal<PatrocinadorDTO | null>(null);
   mostrarJanelaFoto = false;
   previewFoto: string | null = null;
 
-  constructor(private empresaService: EmpresaService, private cdr: ChangeDetectorRef, private router: Router){}
+  // Accordion state
+  showCampanhasCriadas = signal(true);
+  showInscricoes = signal(false);
 
-  ngOnInit(){
-    this.data = this.empresaService.getDataEmpresa();
+  ngOnInit() {
+    this.perfilService.buscarPerfil().subscribe(data => {
+      this.perfil.set(data as PatrocinadorDTO);
+    });
   }
 
-  abrirDetalhes(campanha: any){
-    //lógica para lidar com as janelas pop-up de campanhas
-    this.estavaMostrandoTodas = this.mostrarTodas;
-    this.mostrarTodas = false;
-    this.campanhaSelecionada = campanha;
+  get fotoExibida(): string {
+    return 'assets/foto-limpai.png';
   }
 
-  fecharPopup(){
-    //fecha um pop-up de campanha individual
-    this.campanhaSelecionada = null;
-
-    //reabre pop-up de todas as campanhas se estava aberto antes
-    if (this.estavaMostrandoTodas){
-      this.mostrarTodas = true;
-      this.estavaMostrandoTodas = false;
-    }
-  }
-
-  abrirTodas(){
-    this.mostrarTodas = true;
-  }
-
-  fecharTodas(){
-    this.mostrarTodas = false;
-  }
-
-  abrirJanelaFoto(){
+  abrirJanelaFoto() {
     this.mostrarJanelaFoto = true;
   }
 
-  fecharJanelaFoto(){
+  fecharJanelaFoto() {
     this.mostrarJanelaFoto = false;
     this.previewFoto = null;
   }
 
-  uploadFoto(event: Event){
+  uploadFoto(event: Event) {
     const input = event.target as HTMLInputElement;
-    if(input.files && input.files[0]){
+    if (input.files && input.files[0]) {
       const file = input.files[0];
       const reader = new FileReader();
-      reader.onload = e =>{
+      reader.onload = e => {
         this.previewFoto = e.target?.result as string;
-
-        this.cdr.detectChanges(); //corrige bug
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
     }
   }
 
-  salvarNovaFoto(novaUrl: string) {
-    this.empresaService.atualizarFoto(novaUrl);
-    this.fecharJanelaFoto();
-  }
+  salvarNovaFoto(novaUrl: string) { /* TODO: Implementar upload */ }
+  removerFoto() { /* TODO: Implementar remoção */ }
 
-  removerFoto(){
-    this.empresaService.removerFoto();
-    this.previewFoto = this.empresaService.getDataEmpresa().fotoPlaceholder;
-    this.mostrarJanelaFoto = false;
-  }
-
-  navegar(route: string){
+  navegar(route: string) {
     this.router.navigate([route]);
   }
 }
