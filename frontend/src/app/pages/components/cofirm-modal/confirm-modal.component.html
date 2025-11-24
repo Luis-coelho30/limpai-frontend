@@ -1,0 +1,17 @@
+@if (show) {
+  <div class="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md animate-fade-in-scale text-center">
+      <h2 class="text-2xl font-bold mb-2 text-gray-800">{{ title }}</h2>
+      @if (message) {
+        <p class="mb-6 text-gray-600">{{ message }}</p>
+      }
+
+      <div class="mt-6 flex justify-center gap-4">
+        <button type="button" (click)="close.emit()" class="px-6 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition">Cancelar</button>
+        <button type="button" (click)="confirm.emit()" class="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
+          {{ confirmButtonText }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

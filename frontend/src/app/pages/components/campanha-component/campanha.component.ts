@@ -44,6 +44,7 @@ export class CampanhaComponent implements OnInit, OnChanges {
   @Input() campanha: CampanhaDTO | null = null;
   @Input() mode: 'view' | 'create' | 'edit' = 'view';
   @Input() canManage: boolean = false; 
+  @Input() isSubscribed: boolean = false;
   @Input() initialLocalId: number | null = null;
   @Input() initialLocalNome: string | null = null;
   
@@ -68,6 +69,11 @@ export class CampanhaComponent implements OnInit, OnChanges {
     metaFundos: 0,
     localId: 0
   };
+
+  get isEncerrada(): boolean {
+    if (!this.campanha?.dataFim) return false;
+    return new Date(this.campanha.dataFim) < new Date();
+  }
 
   ngOnInit(): void {
     if (this.mode === 'create' && this.initialLocalId) {
