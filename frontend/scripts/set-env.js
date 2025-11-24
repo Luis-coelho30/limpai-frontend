@@ -1,27 +1,30 @@
-const { writeFile } = require('fs');
-const { promisify } = require('util');
+const fs = require('fs');
+const path = require('path');
 
-const writeFilePromise = promisify(writeFile);
+console.log('Setting production environment variables...');
+
+const targetPath = path.join(__dirname, '../src/environments/environment.prod.ts');
 
 const apiUrl = process.env.API_URL;
 
 if (!apiUrl) {
-  console.error('A variável de ambiente API_URL não foi definida!');
+  console.error('Error: Variável de ambiente API_URL não definida.');
   process.exit(1);
 }
 
-const targetPath = './src/environments/environment.prod.ts';
+fs.readFile(targetPath, 'utf8', (err, data) => {
+  if (err) {
+    console.error(`Erro ao ler o arquivo ${targetPath}:`, err);
+    return process.exit(1);
+  }
 
-const envConfigFile = `export const environment = {
-  production: true,
-  apiUrl: '${apiUrl}',
-};
-`;
+  const result = data.replace(/__API_URL__/g, apiUrl);
 
-writeFilePromise(targetPath, envConfigFile)
-  .then(() => console.log(`Arquivo de ambiente de produção gerado em ${targetPath}`))
-  .catch(err => {
-    console.error('Erro ao gerar o arquivo de ambiente:', err);
-    process.exit(1);
+  fs.writeFile(targetPath, result, 'utf8', (err) => {
+    if (err) {
+      console.error(`Erro ao escrever no arquivo ${targetPath}:`, err);
+      return process.exit(1);
+    }
+    console.log(`API_URL definida com sucesso em ${targetPath}`);
   });
-
+});
