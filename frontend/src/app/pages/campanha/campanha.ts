@@ -5,7 +5,8 @@ import { CampanhaDTO, DoacaoDTO, EstenderPrazoDTO } from '../../model/campanha.d
 import { CampanhaComponent } from '../components/campanha-component/campanha.component';
 import { DoacaoModalComponent } from '../components/doacao-component/doacao-modal.component';
 import { EstenderPrazoModalComponent } from '../components/estender-component/estender-prazo-modal.component';
-import { catchError, of, switchMap } from 'rxjs';
+import { ConfirmModalComponent } from '../components/cofirm-modal/confirm-modal.component';
+import { catchError, of, switchMap, Observable } from 'rxjs';
 import { CampanhaService } from '../../service/campanha.service';
 import { AuthService } from '../../service/auth.service';
 
@@ -16,7 +17,8 @@ import { AuthService } from '../../service/auth.service';
     CommonModule,
     CampanhaComponent,
     DoacaoModalComponent,
-    EstenderPrazoModalComponent
+    EstenderPrazoModalComponent,
+    ConfirmModalComponent
   ],
   templateUrl: './campanha.html',
   styleUrl: './campanha.css'
@@ -33,12 +35,21 @@ export class CampanhaPage implements OnInit {
 
   showDoacaoModal = false;
   showEstenderPrazoModal = false;
+  showConfirmEncerramentoModal = false;
   modalErrorMessage: string | null = null;
   currentCampanhaId: number | null = null;
 
   showToast = signal<boolean>(false);
   toastMessage = signal<string>('');
   toastType = signal<'success' | 'error'>('success');
+
+  private isFromProfile: boolean = false;
+  isSubscribed = signal<boolean>(false);
+
+  constructor() {
+    const navigation = this.router.currentNavigation();
+    this.isFromProfile = navigation?.extras.state?.['fromProfile'] ?? false;
+  }
 
 
   ngOnInit(): void {
@@ -54,8 +65,8 @@ export class CampanhaPage implements OnInit {
       })
     ).subscribe(data => {
       this.campanha = data;
-      const isManagementRoute = this.router.url.includes('/perfil-empresa');
-      this.canManage = isManagementRoute && this.authService.getRole() === 'PATROCINADOR';
+      this.canManage = this.isFromProfile && this.authService.getRole() === 'PATROCINADOR';
+      this.isSubscribed.set(data?.usuarioInscrito ?? false);
       this.cdr.detectChanges(); 
     });
   }
@@ -75,22 +86,45 @@ export class CampanhaPage implements OnInit {
   }
 
   handleEndCampaign(campanhaId: number): void {
-    if (confirm('Tem certeza que deseja encerrar esta campanha?')) {
-      this.campanhaService.encerrarCampanha(campanhaId).subscribe(updatedCampanha => {
-        this.campanha = updatedCampanha;
-        alert('Campanha encerrada com sucesso!');
-      });
-    }
+    this.currentCampanhaId = campanhaId;
+    this.showConfirmEncerramentoModal = true;
+  }
+
+  confirmEncerramento(): void {
+    if (!this.currentCampanhaId) return;
+    this.campanhaService.encerrarCampanha(this.currentCampanhaId).subscribe(updatedCampanha => {
+      this.campanha = { ...this.campanha, ...updatedCampanha };
+      this.displayToast('Campanha encerrada com sucesso!', 'success');
+      this.closeModal();
+    });
   }
 
   handleSignUp(): void {
-    // TODO: Chamar o futuro InscriçãoService
-    alert('Funcionalidade de inscrição a ser implementada.');
+    if (!this.currentCampanhaId) return;
+
+    const action:Observable<any> = this.isSubscribed()
+      ? this.campanhaService.desinscrever(this.currentCampanhaId)
+      : this.campanhaService.inscrever(this.currentCampanhaId);
+
+    action.subscribe({
+      next: () => {
+        const newSubscribedState = !this.isSubscribed();
+        this.isSubscribed.set(newSubscribedState);
+        
+        if (this.campanha) {
+          this.campanha.qtdInscritos += newSubscribedState ? 1 : -1;
+          this.campanha.usuarioInscrito = newSubscribedState;
+          const message = newSubscribedState ? 'Inscrição realizada com sucesso!' : 'Inscrição cancelada.';
+          this.displayToast(message, 'success');
+        }
+      }
+    });
   }
 
   closeModal(): void {
     this.showDoacaoModal = false;
     this.showEstenderPrazoModal = false;
+    this.showConfirmEncerramentoModal = false;
     this.modalErrorMessage = null;
   }
 
@@ -105,7 +139,7 @@ export class CampanhaPage implements OnInit {
         )
         .subscribe(doacaoResponse => {
           if (doacaoResponse && this.campanha) { 
-            this.campanha.fundosArrecadados = doacaoResponse.valor;
+            this.campanha = { ...this.campanha, ...doacaoResponse };
             this.displayToast('Doação registrada com sucesso!', 'success');
             this.closeModal();
             this.cdr.detectChanges(); 
@@ -126,7 +160,7 @@ export class CampanhaPage implements OnInit {
         .subscribe(updatedCampanha => {
           if (updatedCampanha) {
             this.campanha = updatedCampanha; 
-            alert('Prazo estendido com sucesso!');
+            this.displayToast('Prazo estendido com sucesso!', 'success');
             this.closeModal();
           }
         });
